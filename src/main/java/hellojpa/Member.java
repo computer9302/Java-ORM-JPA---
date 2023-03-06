@@ -6,35 +6,27 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity(name="Member")
+@SequenceGenerator(
+        name="MEMBER_SEQ_GENERATOR",
+        sequenceName="MEMBER_SEQ", //매핑할 데이터베이스 시퀀스 이름
+        initialValue = 1, allocationSize = 50
+)
+
 public class Member {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+    generator = "MEMBER_SEQ_GENERATOR")
     private long id;
-    @Column(name = "name", nullable = false, columnDefinition = "varchar(100) default 'EMPTY'")
-    private String name;
-    private Integer age;
-    @Enumerated(EnumType.STRING)
-    private RoleType roleTyoe;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastModifiedDate;
-
-    private LocalDate testLocalDate;
-    private LocalDateTime testLocalDateTime;
-    @Lob
-    private String description;
-    @Transient
-    private int temp;
-
-
+    @Column(name = "name", nullable = false)
+    private String username;
 
     public Member() {
     }
 
     public Member(long id, String name) {
         this.id = id;
-        this.name = name;
+        this.username = name;
     }
 
     public long getId() {
@@ -46,10 +38,10 @@ public class Member {
     }
 
     public String getName() {
-        return name;
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String username) {
+        this.username = username;
     }
 }
