@@ -15,19 +15,18 @@ import java.util.Date;
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,
-    generator = "MEMBER_SEQ_GENERATOR")
+    @GeneratedValue
+    @Column(name="MEMBER_ID")
     private long id;
-    @Column(name = "name", nullable = false)
+    @Column(name = "USERNAME")
     private String username;
 
-    public Member() {
-    }
+    //@Column(name="TEAM_ID")
+    //private Long teamId;
 
-    public Member(long id, String name) {
-        this.id = id;
-        this.username = name;
-    }
+    @ManyToOne
+    @JoinColumn(name="TEAM_ID")
+    private Team team;
 
     public long getId() {
         return id;
@@ -37,11 +36,19 @@ public class Member {
         this.id = id;
     }
 
-    public String getName() {
+    public String getUsername() {
         return username;
     }
 
-    public void setName(String username) {
+    public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
