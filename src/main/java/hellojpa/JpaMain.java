@@ -20,11 +20,10 @@ public class JpaMain {
 
             em.persist(member);
 
-            Team team = new Team();
-            team.setName("teamA");
-            team.getMembers().add(member);
+            Locker locker = new Locker();
 
-            em.persist(team);
+
+            em.persist(locker);
 
             tx.commit();
         }catch(Exception e){
