@@ -18,7 +18,7 @@ public class JpaMain {
             Movie movie = new Movie();
             movie.setDirector("aaaa");
             movie.setActor("bbbb");
-            movie.setName("스즈메의 문단속");
+            movie.setName("스즈메의 문단속1");
             movie.setPrice(10000);
 
             em.persist(movie);
