@@ -1,6 +1,7 @@
 package hellojpa;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class JpaMain {
@@ -15,19 +16,18 @@ public class JpaMain {
 
         try{
 
-            Movie movie = new Movie();
-            movie.setDirector("aaaa");
-            movie.setActor("bbbb");
-            movie.setName("스즈메의 문단속1");
-            movie.setPrice(10000);
+            Member member = new Member();
+            member.setUsername("user1");
+            member.setCreateBy("Kim");
+            member.setCreateDate(LocalDateTime.now());
 
-            em.persist(movie);
+
 
             em.flush();
             em.clear();
 
-            Movie findMovie = em.find(Movie.class, movie.getId());
-            System.out.println("findMovie = " + findMovie);
+            Member findMember = em.find(Member.class, member.getId());
+            System.out.println("findMember = " + member);
 
             tx.commit();
         }catch(Exception e){
