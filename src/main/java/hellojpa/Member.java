@@ -23,10 +23,6 @@ public class Member extends BaseEntity {
     @Column(name = "USERNAME")
     private String username;
 
-    @OneToOne
-    @JoinColumn(name = "LOCKER_ID")
-    private Locker locker;
-
     @OneToMany(mappedBy = "product")
     private List<MemberProduct> memberProducts = new ArrayList<>();
 

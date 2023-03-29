@@ -16,22 +16,31 @@ public class JpaMain {
 
         try{
 
-            Member member = new Member();
-            member.setUsername("user1");
-            member.setCreateBy("Kim");
-            member.setCreateDate(LocalDateTime.now());
-
-
+            Member member1 = new Member();
+            member1.setUsername("member1");
+            em.persist(member1);
 
             em.flush();
             em.clear();
 
-            Member findMember = em.find(Member.class, member.getId());
-            System.out.println("findMember = " + member);
+
+            Member reference = em.getReference(Member.class, member1.getId());
+            System.out.println("reference = " + reference.getClass());
+            //reference.getUsername();
+            System.out.println("isLoaded = "+emf.getPersistenceUnitUtil().isLoaded(reference));
+            org.hibernate.Hibernate.initialize(reference);
+
+            //em.detach(reference);
+            //em.close();
+            em.clear();
+
+            reference.getUsername();
+
 
             tx.commit();
         }catch(Exception e){
             tx.rollback();
+            System.out.println("e = " + e);
         }finally {
             em.close();
         }
