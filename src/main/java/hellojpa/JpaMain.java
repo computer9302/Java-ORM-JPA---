@@ -15,26 +15,29 @@ public class JpaMain {
         tx.begin();
 
         try{
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
+
 
             Member member1 = new Member();
             member1.setUsername("member1");
+            member1.setTeam(team);
             em.persist(member1);
+
 
             em.flush();
             em.clear();
 
 
-            Member reference = em.getReference(Member.class, member1.getId());
-            System.out.println("reference = " + reference.getClass());
-            //reference.getUsername();
-            System.out.println("isLoaded = "+emf.getPersistenceUnitUtil().isLoaded(reference));
-            org.hibernate.Hibernate.initialize(reference);
+            Member m = em.find(Member.class, member1.getId());
+            System.out.println("member = " + m.getClass());
 
-            //em.detach(reference);
-            //em.close();
-            em.clear();
+            System.out.println("team = " + m.getTeam().getClass());
 
-            reference.getUsername();
+            System.out.println("=======================");
+            System.out.println(m.getTeam().getName());
+            System.out.println("=======================");
 
 
             tx.commit();

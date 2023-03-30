@@ -23,6 +23,10 @@ public class Member extends BaseEntity {
     @Column(name = "USERNAME")
     private String username;
 
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = hellojpa.Team.class)
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
+
     @OneToMany(mappedBy = "product")
     private List<MemberProduct> memberProducts = new ArrayList<>();
 
@@ -42,5 +46,11 @@ public class Member extends BaseEntity {
         this.username = username;
     }
 
+    public Team getTeam() {
+        return team;
+    }
 
+    public void setTeam(Team t) {
+        team = t;
+    }
 }
