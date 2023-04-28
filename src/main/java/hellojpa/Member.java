@@ -14,7 +14,7 @@ import java.util.List;
         initialValue = 1, allocationSize = 50
 )
 
-public class Member extends BaseEntity {
+public class Member{
 
     @Id
     @GeneratedValue
@@ -23,12 +23,23 @@ public class Member extends BaseEntity {
     @Column(name = "USERNAME")
     private String username;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = hellojpa.Team.class)
-    @JoinColumn(name = "TEAM_ID")
-    private Team team;
 
-    @OneToMany(mappedBy = "product")
-    private List<MemberProduct> memberProducts = new ArrayList<>();
+    @Embedded
+    //기간
+     private Period workPeriod;
+    @Embedded
+    //주소
+     private Address homeAddress;
+
+    @Embedded
+    @AttributeOverrides({@AttributeOverride(name = "city", column = @Column(name = "WORK_CITY")),
+                         @AttributeOverride(name = "street", column = @Column(name ="WORK_STREET")),
+                         @AttributeOverride(name = "zipcode", column = @Column(name ="WORK_ZIPCODE"))
+    })
+    private Address workAddress;
+
+    public Member() {
+    }
 
     public long getId() {
         return id;
@@ -46,11 +57,20 @@ public class Member extends BaseEntity {
         this.username = username;
     }
 
-    public Team getTeam() {
-        return team;
+
+    public Period getWorkPeriod() {
+        return workPeriod;
     }
 
-    public void setTeam(Team t) {
-        team = t;
+    public void setWorkPeriod(Period workPeriod) {
+        this.workPeriod = workPeriod;
+    }
+
+    public Address getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
     }
 }
