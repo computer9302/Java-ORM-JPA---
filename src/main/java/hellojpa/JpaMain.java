@@ -3,6 +3,7 @@ package hellojpa;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public class JpaMain {
 
@@ -16,15 +17,34 @@ public class JpaMain {
 
         try{
 
-            Address address = new Address("city", "street", "10000");
-
             Member member = new Member();
             member.setUsername("member1");
-            member.setHomeAddress(address);
+            member.setHomeAddress(new Address("homeCity", "street", "10000"));
+
+            member.getFaveritFoods().add("치킨");
+            member.getFaveritFoods().add("족발");
+            member.getFaveritFoods().add("피자");
+
+            member.getAddressHistory().add(new Address("old1", "street", "10000"));
+            member.getAddressHistory().add(new Address("old2", "street", "10000"));
+
             em.persist(member);
 
-            Address newAddress = new Address("NewCity", address.getStreet(), address.getZipcode());
-            member.setHomeAddress(newAddress);
+            em.flush();
+            em.clear();
+
+            System.out.println("======================START=====================");
+            Member findMember = em.find(Member.class, member.getId());
+
+            List<Address> addressHistory = findMember.getAddressHistory();
+            for(Address address : addressHistory){
+                System.out.println("address = " + address.getCity());
+            }
+
+            Set<String> faveritFoods = findMember.getFaveritFoods();
+            for(String favoriteFood : faveritFoods){
+                System.out.println("favoriteFood = " + favoriteFood);
+            }
 
 
             tx.commit();
