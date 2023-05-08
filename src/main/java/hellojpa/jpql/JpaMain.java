@@ -22,7 +22,7 @@ public class JpaMain {
 
 
             Member member = new Member();
-            member.setUsername("member1");
+            member.setUsername("teamA");
             member.setAge(10);
 
             member.setTeam(team);
@@ -33,8 +33,10 @@ public class JpaMain {
             em.clear();
 
 
-            List<Member> result = em.createQuery("select m from Member m inner join m.team t", Member.class)
+            List<Member> result = em.createQuery("select m from Member m join Team t on m.username = t.name", Member.class)
                     .getResultList();
+
+
 
             tx.commit();
         }catch(Exception e){
