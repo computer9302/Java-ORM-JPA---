@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 public class JpaMain {
@@ -16,18 +17,19 @@ public class JpaMain {
 
         try{
 
-            Member member = new Member();
-            member.setUsername("관리자");
-            member.setAge(10);
-            member.setType(MemberType.ADMIN);
+            Member member1 = new Member();
+            member1.setUsername("관리자1");
+            em.persist(member1);
 
-            em.persist(member);
+            Member member2 = new Member();
+            member2.setUsername("관리자2");
+            em.persist(member2);
 
             em.flush();
             em.clear();
 
-
-            String query = "select nullif(m.username, '관리자') from Member m";
+            // function('group_concat', m.username)
+            String query = "select function('group_concat', m.username) from Member m";
 
             List<String> result = em.createQuery(query, String.class)
                     .getResultList();
@@ -35,7 +37,6 @@ public class JpaMain {
             for(String s : result){
                 System.out.println("s = " + s);
             }
-
 
             tx.commit();
         }catch(Exception e){
