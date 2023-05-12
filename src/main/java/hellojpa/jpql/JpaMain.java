@@ -17,26 +17,31 @@ public class JpaMain {
 
         try{
 
+            Team team = new Team();
+            em.persist(team);
+
             Member member1 = new Member();
             member1.setUsername("관리자1");
+            member1.setTeam(team);
             em.persist(member1);
 
             Member member2 = new Member();
             member2.setUsername("관리자2");
+            member2.setTeam(team);
             em.persist(member2);
 
             em.flush();
             em.clear();
 
             // function('group_concat', m.username)
-            String query = "select function('group_concat', m.username) from Member m";
+            String query = "select m.username from Team t join t.members m";
 
-            List<String> result = em.createQuery(query, String.class)
-                    .getResultList();
+            Integer result = em.createQuery(query, Integer.class)
+                    .getSingleResult();
 
-            for(String s : result){
-                System.out.println("s = " + s);
-            }
+
+                System.out.println("result = " + result);
+
 
             tx.commit();
         }catch(Exception e){
