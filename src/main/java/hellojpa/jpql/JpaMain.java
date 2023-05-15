@@ -43,11 +43,15 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            // function('group_concat', m.username)
-            String query = "select t from Team t join fetch t.members";
+            // 하이버네이트는 경고 로그를 남기고 메모리에서 페이징(매우 위험 절대 하면 안된다.)
+            String query = "select t from Team t";
 
             List<Team> resultList = em.createQuery(query, Team.class)
+                    .setFirstResult(0)
+                    .setMaxResults(2)
                     .getResultList();
+
+            System.out.println("resultList = " + resultList.size());
 
             for (Team team : resultList) {
                 System.out.println("team = " + team.getName() + "|members= " + team.getMembers().size());
