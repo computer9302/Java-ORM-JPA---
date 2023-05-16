@@ -44,20 +44,14 @@ public class JpaMain {
             em.clear();
 
             // 하이버네이트는 경고 로그를 남기고 메모리에서 페이징(매우 위험 절대 하면 안된다.)
-            String query = "select t from Team t";
+            String query = "select m from Member m where m.team = :team";
 
-            List<Team> resultList = em.createQuery(query, Team.class)
-                    .setFirstResult(0)
-                    .setMaxResults(2)
+            List<Member> members = em.createQuery(query, Member.class)
+                    .setParameter("team", team1)
                     .getResultList();
 
-            System.out.println("resultList = " + resultList.size());
-
-            for (Team team : resultList) {
-                System.out.println("team = " + team.getName() + "|members= " + team.getMembers().size());
-                for (Member member : team.getMembers()) {
-                    System.out.println("member = " + member);
-                }
+            for (Member member : members) {
+                System.out.println("resultList = " + member);
             }
 
 
